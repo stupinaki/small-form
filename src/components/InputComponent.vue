@@ -90,18 +90,12 @@ export default {
   border-radius: 4px;
   padding: 8px 16px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
 }
 .input-wrapper-error {
   border: 1px solid #af1a1a;
   border-radius: 4px;
   padding: 8px 16px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
 }
 .input-tag {
   border: none;
@@ -119,6 +113,9 @@ export default {
   outline: none;
 }
 .label-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   color: #1111117A;
 }
 

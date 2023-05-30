@@ -76,7 +76,8 @@ export default {
 .preview-headers {
   font-size: 16px;
   line-height: 123%;
-  font-weight: normal;
+  font-style: normal;
+  font-weight: 500
 }
 .main-person-text {
   font-size: 16px;
