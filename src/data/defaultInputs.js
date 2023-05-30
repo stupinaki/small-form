@@ -2,15 +2,15 @@
 export const defaultInputs = [
     {
         key: "name",
-        placeholder: "Введите имя",
         label: "Имя",
-        value: ""
+        value: "",
+        isError: false
     },
     {
         key: "age",
-        placeholder: "Введите возраст",
         label: "Возраст",
         value: "",
-        type: "number"
+        type: "number",
+        isError: false
     }
 ]

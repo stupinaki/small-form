@@ -15,8 +15,9 @@
               :label="value.label"
               :key-name="value.key"
               :value="value.value"
-              :placeholder="value.placeholder"
+              :is-error="value.isError"
               @input-change="onMainInputsChange"
+              @error-change="onErrorChange"
           />
         </div>
       </div>
@@ -45,8 +46,9 @@
                 :label="value.label"
                 :key-name="value.key"
                 :value="value.value"
-                :placeholder="value.placeholder"
+                :is-error="value.isError"
                 @input-change="onKidsInputChange"
+                @error-change="onErrorChangeKids"
             />
             <ButtonComponent
                 text="Удалить"
@@ -96,8 +98,45 @@ export default {
         }
       })
     },
+    onKidsInputChange(data) {
+      this.$data.kidsValue[data.id] = this.$data.kidsValue[data.id].map(k => {
+        return {
+          ...k,
+          value: k.key === data.key ? data.value : k.value,
+        }
+      })
+    },
+    deleteKid(id) {
+      delete this.$data.kidsValue[id];
+    },
+    onErrorChange(data) {
+      this.$data.mainInputsValue = this.$data.mainInputsValue.map(d => {
+        return {
+          ...d,
+          isError: data.key === d.key ? data.isError : d.isError,
+        }
+      })
+    },
+    onErrorChangeKids(data) {
+      this.$data.kidsValue[data.id] = this.$data.kidsValue[data.id].map(k => {
+        return {
+          ...k,
+          isError: data.key === k.key ? data.isError : k.isError,
+        }
+      })
+    },
     onSubmit() {
-      const { mainInputsValue, kidsValue } = this.$data;
+      const {mainInputsValue, kidsValue} = this.$data;
+      //todo не нужно использовать some потому что ты хочешь отобразить ошибки на каждом инпуте
+      //todo а значит предварительная проверка вообще избыточна, можно сразу заняться назначением и удалением ошибок
+      const isMainInputsFilled = !mainInputsValue.some(input => input.isError || !input.value);
+      const isKidsInputFilled = !this.kidsKeys.some(key => kidsValue[key].some(input => input.isError || !input.value));
+
+      if (!isMainInputsFilled || !isKidsInputFilled) {
+        mainInputsValue.forEach(input => input.isError = !input.value);
+        this.kidsKeys.forEach(key => kidsValue[key].forEach(input => input.isError = !input.value));
+        return;
+      }
       const mainPerson = {}
       mainInputsValue.forEach(v => mainPerson[v.key] = v.value);
 
@@ -118,17 +157,6 @@ export default {
 
       this.$data.mainInputsValue = cloneDeep(defaultInputs);
       this.$data.kidsValue = {};
-    },
-    onKidsInputChange(data) {
-      this.$data.kidsValue[data.id] = this.$data.kidsValue[data.id].map(k => {
-        return {
-          ...k,
-          value: k.key === data.key ? data.value : k.value,
-        }
-      })
-    },
-    deleteKid(id) {
-      delete this.$data.kidsValue[id];
     }
   },
   computed: {
@@ -171,7 +199,8 @@ export default {
 .form-headers {
   font-size: 16px;
   line-height: 123%;
-  font-weight: normal;
+  font-style: normal;
+  font-weight: 500
 }
 .header-wrapper {
   display: flex;

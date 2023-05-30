@@ -1,22 +1,24 @@
 <template>
-  <div class="input-wrapper">
-    <label :for="id" class="label-text"> {{ label }} </label>
-    <input
-        :id="id"
-        :value="value"
-        :type="type"
-        :placeholder="placeholder"
-        class="input-tag"
-        @change="onChange"
-        @focus="onFocus"
-    >
+  <div :class="inputWrapperStyle">
+    <label class="label-text">
+      {{ label }}
+      <input
+          :value="value"
+          :type="type"
+          placeholder="..."
+          class="input-tag"
+          @change="onChange"
+          @focus="onFocus"
+          @blur="onBlur"
+      >
+    </label>
   </div>
 </template>
 
 <script>
 export default {
   name: "InputComponent",
-  emits: ["inputChange"],
+  emits: ["inputChange", "errorChange"],
   props: {
     id: {
       type: String,
@@ -31,10 +33,6 @@ export default {
       required: false,
       default: "",
     },
-    placeholder: {
-      type: String,
-      required: true,
-    },
     label: {
       type: String,
       required: true,
@@ -43,7 +41,11 @@ export default {
       type: String,
       required: false,
       default: "text",
-    }
+    },
+    isError: {
+      type: Boolean,
+      required: true
+  },
   },
   methods: {
     onChange(e) {
@@ -56,6 +58,27 @@ export default {
     },
     onFocus(e) {
       e.target.select();
+      const data = {
+        id:  this.$props.id,
+        key: this.$props.keyName,
+        isError: false,
+      };
+      this.$emit("errorChange", data)
+    },
+    onBlur(){
+      if(!this.$props.value) {
+        const data = {
+          id:  this.$props.id,
+          key: this.$props.keyName,
+          isError: true,
+        };
+        this.$emit("errorChange", data);
+      }
+    }
+  },
+  computed: {
+    inputWrapperStyle() {
+      return this.$props.isError ? "input-wrapper-error" : "input-wrapper"
     }
   }
 }
@@ -71,11 +94,25 @@ export default {
   flex-direction: column;
   gap: 4px;
 }
+.input-wrapper-error {
+  border: 1px solid #af1a1a;
+  border-radius: 4px;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 .input-tag {
   border: none;
   background-color: transparent;
   height: 100%;
   width: 100%;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #111111;
 }
 
 .input-tag:focus-visible {
