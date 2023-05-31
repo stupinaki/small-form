@@ -131,10 +131,10 @@ export default {
       mainInputsValue.forEach(input => input.isError = !input.value);
       this.kidsKeys.forEach(key => kidsValue[key].forEach(input => input.isError = !input.value));
 
-      const isMainInputsFilled = !mainInputsValue.some(input => input.isError || !input.value);
-      const isKidsInputFilled = !this.kidsKeys.some(key => kidsValue[key].some(input => input.isError || !input.value));
+      const isMainInputsNotFilled = mainInputsValue.some(input => input.isError);
+      const isKidsInputNotFilled = this.kidsKeys.some(key => kidsValue[key].some(input => input.isError));
 
-      if (!isMainInputsFilled || !isKidsInputFilled) {
+      if (isMainInputsNotFilled || isKidsInputNotFilled) {
         return;
       }
       const mainPerson = {}
