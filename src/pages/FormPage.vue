@@ -127,14 +127,14 @@ export default {
     },
     onSubmit() {
       const {mainInputsValue, kidsValue} = this.$data;
-      //todo не нужно использовать some потому что ты хочешь отобразить ошибки на каждом инпуте
-      //todo а значит предварительная проверка вообще избыточна, можно сразу заняться назначением и удалением ошибок
+
+      mainInputsValue.forEach(input => input.isError = !input.value);
+      this.kidsKeys.forEach(key => kidsValue[key].forEach(input => input.isError = !input.value));
+
       const isMainInputsFilled = !mainInputsValue.some(input => input.isError || !input.value);
       const isKidsInputFilled = !this.kidsKeys.some(key => kidsValue[key].some(input => input.isError || !input.value));
 
       if (!isMainInputsFilled || !isKidsInputFilled) {
-        mainInputsValue.forEach(input => input.isError = !input.value);
-        this.kidsKeys.forEach(key => kidsValue[key].forEach(input => input.isError = !input.value));
         return;
       }
       const mainPerson = {}

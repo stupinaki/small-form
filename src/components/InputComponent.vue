@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     inputWrapperStyle() {
-      return this.$props.isError ? "input-wrapper-error" : "input-wrapper"
+      return this.$props.isError ? "input-wrapper-error" : "input-wrapper";
     }
   }
 }

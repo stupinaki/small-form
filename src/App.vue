@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <div class="main-header">
+    <header class="main-header">
       <div>
         <img src="@/assets/logo.png" alt="Alef logo">
       </div>
@@ -12,30 +12,19 @@
           Превью
         </router-link>
       </div>
-    </div>
+    </header>
 
-    <div class="main-page-content">
+    <main class="main-page-content">
       <router-view />
-    </div>
+    </main>
 
-    <div class="main-footer">
+    <footer class="main-footer">
       <div>
         all rights reserved
       </div>
-    </div>
+    </footer>
   </div>
 </template>
-
-Должны быть поля ввода ФИО и возраста пользователя.
-Ниже должна вводится информация о детях. Изначально пользователь видит только кнопку "+", при нажатии на нее появляется блок
-в котором можно ввести информацию о ребенке: Имя и возраст. Таким образом пользователь может добавить вплоть до 5 детей.
-Когда пользователь добавил 5 детей — кнопка "+" исчезает и больше недоступна. Так же напротив каждого ребенка есть кнопка "удалить" ,
-при нажатии на которую соответствующая запись удаляется.
-
-Реализовать функционал нужно без серверной части. При нажатии на кнопку "Сохранить" введенные данные должны отображаться на странице
-"Превью".
-
-Есть вторая страница, на которой отображаются введенные данные, без возможности редактировать.
 
 <script>
 import { routerNames } from "@/router/routers";
@@ -66,8 +55,7 @@ export default {
   font-family: Montserrat,serif;
 }
 .main-header {
-  display: grid;
-  grid-template-columns: 2fr 10fr;
+  display: flex;
   gap: 20px;
   border-bottom: 1px solid #1111111a;
   padding: 30px 90px;
@@ -76,7 +64,9 @@ export default {
 .main-header-links {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 24px;
+  width: 100%;
 }
 .main-header-link {
   color: #1111117a;
@@ -106,10 +96,16 @@ export default {
   .main-page-content {
     padding: 0 60px;
   }
+  .main-header {
+    padding: 30px 80px;
+  }
 }
 @media screen and (max-width: 450px){
   .main-page-content {
     padding: 0 20px;
+  }
+  .main-header {
+    padding: 30px 40px;
   }
 }
 </style>
